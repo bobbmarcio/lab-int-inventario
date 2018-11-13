@@ -1,0 +1,1 @@
+# lab-int-inventario
