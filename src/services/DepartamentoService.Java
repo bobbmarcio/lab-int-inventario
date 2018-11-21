@@ -1,3 +1,3 @@
-public class DepartamentoService{
+public class DepartamentoService implements DepartamentoDAO {
 
 }
