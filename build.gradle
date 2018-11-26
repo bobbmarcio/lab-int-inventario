@@ -1,14 +1,23 @@
-group 'br.ufg'
-version '1.0-SNAPSHOT'
-
-apply plugin: 'java'
-
-sourceCompatibility = 1.8
-
-repositories {
-    mavenCentral()
+plugins {
+    id 'java'
+    id 'idea'
+    id 'eclipse'
+    id 'maven'
+    id 'checkstyle'
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testImplementation 'junit:junit:4.12'
+}
+
+checkstyle {
+    configFile = file("$rootDir/config/checkstyle/checkstyle.xml")
+}
+
+// In this section you declare where to find the dependencies of your project
+repositories {
+    mavenCentral()
+    // Use jcenter for resolving your dependencies.
+    // You can declare any Maven/Ivy/file repository here.
+    jcenter()
 }
