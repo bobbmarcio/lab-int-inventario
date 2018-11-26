@@ -6,21 +6,21 @@ import org.junit.Test;
 
 public class AplicacaoCliTest {
 
-    private AplicacaoCli aplicacao;
+  private AplicacaoCli aplicacao;
 
-    @Before
-    public void inicializa() {
-        aplicacao = new AplicacaoCli();
-    }
+  @Before
+  public void inicializa() {
+    aplicacao = new AplicacaoCli();
+  }
 
-    @Test
-    public void deveExecutarSemErrosComParametrosNulos() {
-        aplicacao.run(null);
-    }
+  @Test
+  public void deveExecutarSemErrosComParametrosNulos() {
+    aplicacao.run(null);
+  }
 
-    @Test
-    public void deveExecutarSemErrosComParametrosVazios() {
-        aplicacao.run(new String[0]);
-    }
+  @Test
+  public void deveExecutarSemErrosComParametrosVazios() {
+    aplicacao.run(new String[0]);
+  }
 
 }

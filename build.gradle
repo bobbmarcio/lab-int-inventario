@@ -11,6 +11,8 @@ dependencies {
 }
 
 checkstyle {
+    maxWarnings = 0
+    toolVersion = '8.14'
     configFile = file("$rootDir/config/checkstyle/checkstyle.xml")
 }
 

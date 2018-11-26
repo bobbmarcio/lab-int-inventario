@@ -5,11 +5,11 @@ import br.ufg.inf.es.integracao.inventario.view.Aplicacao;
 
 public class RunnerAplicacao {
 
-    static void main(final String[] args) {
-        final ModuloAplicacao modulo = new ModuloAplicacao();
-        final Aplicacao<String[]> app = modulo.construirAplicacao();
+  static void main(final String[] args) {
+    final ModuloAplicacao modulo = new ModuloAplicacao();
+    final Aplicacao<String[]> app = modulo.construirAplicacao();
 
-        app.run(args);
-    }
+    app.run(args);
+  }
 
 }

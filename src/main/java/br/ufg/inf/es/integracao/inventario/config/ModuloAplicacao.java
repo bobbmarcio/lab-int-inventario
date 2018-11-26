@@ -5,11 +5,11 @@ import br.ufg.inf.es.integracao.inventario.view.cli.AplicacaoCli;
 
 public class ModuloAplicacao {
 
-    public ModuloAplicacao() {
-    }
+  public ModuloAplicacao() {
+  }
 
-    public Aplicacao<String[]> construirAplicacao() {
-        return new AplicacaoCli();
-    }
+  public Aplicacao<String[]> construirAplicacao() {
+    return new AplicacaoCli();
+  }
 
 }

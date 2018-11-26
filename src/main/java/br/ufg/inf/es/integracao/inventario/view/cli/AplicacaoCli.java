@@ -4,12 +4,12 @@ import br.ufg.inf.es.integracao.inventario.view.Aplicacao;
 
 public class AplicacaoCli implements Aplicacao<String[]> {
 
-    public AplicacaoCli() {
-    }
+  public AplicacaoCli() {
+  }
 
-    @Override
-    public void run(final String[] parametros) {
-        // TODO: Implementar aplicação
-    }
+  @Override
+  public void run(final String[] parametros) {
+    // TODO: Implementar aplicação
+  }
 
 }
