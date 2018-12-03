@@ -17,12 +17,12 @@ public final class ParametrosDesenvolvimento implements Parametros {
    * URL para o banco de dados postgres resumida
    */
   private static final String URL_POSTGRES_PADRAO_DESENVOLVIMENTO =
-    "jdbc:postgresql:int-inventario";
+    "jdbc:postgresql://localhost/";
 
   /**
    * Usuário a ser conectado o banco de dados
    */
-  private static final String USUARIO_PADRAO_DESENVOLVIMENTO = "inventario";
+  private static final String USUARIO_PADRAO_DESENVOLVIMENTO = "postgres";
 
   /**
    * Senha para o usuário parametrizado
