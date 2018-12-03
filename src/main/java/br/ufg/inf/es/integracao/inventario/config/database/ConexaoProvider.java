@@ -7,13 +7,14 @@ import javax.inject.Provider;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.function.Supplier;
 
 /**
  * Provê uma conexão JDBC. A conexão deve ser compartilhada entre
  * várias chamadas do provedor. A classe não é segura contra chamadas
  * concorrentes.
  */
-public class ConexaoProvider implements Provider<Connection> {
+public class ConexaoProvider implements Supplier<Connection> {
 
   /**
    * Parametros da aplicação.
