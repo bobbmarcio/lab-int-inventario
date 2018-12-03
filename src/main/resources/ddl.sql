@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS unidade (
 	data_garantia        DATE,
 	marca                TEXT,
 	grupo                VARCHAR(50),
-	valor_compra         NUMERIC(20, 4),
+	valor_compra         NUMERIC(20, 2),
 	incorporado          BOOLEAN,
 	localizacao_atual_id BIGINT REFERENCES sala
 );
