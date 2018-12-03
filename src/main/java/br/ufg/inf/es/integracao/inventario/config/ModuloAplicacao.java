@@ -18,10 +18,13 @@ import java.util.function.Supplier;
  */
 public class ModuloAplicacao extends AbstractModule {
 
+  private final Ambiente ambiente;
+
   /**
    * Inicia o módulo.
    */
-  public ModuloAplicacao() {
+  public ModuloAplicacao(final Ambiente ambiente) {
+    this.ambiente = ambiente;
   }
 
   /**
@@ -31,10 +34,28 @@ public class ModuloAplicacao extends AbstractModule {
   @Override
   protected void configure() {
     bind(new TypeLiteral<Aplicacao<String[]>>() {}).to(AplicacaoCli.class);
-    bind(Parametros.class).to(ParametrosDesenvolvimento.class);
     bind(new TypeLiteral<Supplier<Connection>>() {}).to(ConexaoProvider.class);
     bind(new TypeLiteral<Collection<HookInicioAplicacao>>() {})
       .toProvider(ProviderHookInicioAplicacao.class);
+    bind(Ambiente.class).toProvider(new AmbienteSupplier(ambiente));
+
+    if (ambiente == Ambiente.DESENVOLVIMENTO) {
+      bind(Parametros.class).to(ParametrosDesenvolvimento.class);
+    }
+  }
+
+  private static class AmbienteSupplier implements Provider<Ambiente> {
+
+    private final Ambiente ambiente;
+
+    public AmbienteSupplier(Ambiente ambiente) {
+      this.ambiente = ambiente;
+    }
+
+    @Override
+    public Ambiente get() {
+      return ambiente;
+    }
   }
 
 }
