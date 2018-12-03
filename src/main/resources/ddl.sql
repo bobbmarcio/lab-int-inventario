@@ -81,3 +81,13 @@ ALTER TABLE departamento
 ADD IF NOT EXISTS chefe BIGINT REFERENCES usuario;
 ALTER TABLE ordem_servico
 ADD IF NOT EXISTS bem_patrimonial_id BIGINT REFERENCES bem_patrimonial;
+INSERT INTO usuario_papel (usuario_id, papel)
+SELECT * FROM (SELECT 1, 'admin') AS tmp
+WHERE NOT EXISTS (
+    SELECT usuario_id FROM usuario_papel WHERE usuario_id = 1
+) LIMIT 1;
+INSERT INTO usuario (id, nome, email, senha, sala_id)
+SELECT * FROM (SELECT 1, 'admin', 'admin@admin.com', 'admin', 1) AS tmp
+WHERE NOT EXISTS (
+    SELECT nome FROM usuario WHERE nome = 'admin'
+) LIMIT 1;
