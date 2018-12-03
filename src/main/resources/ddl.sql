@@ -15,7 +15,8 @@ CREATE TABLE IF NOT EXISTS predio (
 
 CREATE TABLE IF NOT EXISTS departamento (
 	id   BIGSERIAL PRIMARY KEY,
-	nome TEXT
+	nome TEXT,
+	chefe BIGINT REFERENCES usuario
 );
 
 CREATE TABLE IF NOT EXISTS sala (
@@ -85,5 +86,5 @@ CREATE TABLE IF NOT EXISTS ordem_servico (
 	inicio_servico   DATE,
 	fim_servico      DATE,
 	responsavel_id   BIGINT REFERENCES usuario,
-	ordem_servico_id BIGINT REFERENCES ordem_servico
+	bem_patrimonial_id BIGINT REFERENCES bem_patrimonial
 );
