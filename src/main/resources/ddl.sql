@@ -79,5 +79,5 @@ CREATE TABLE IF NOT EXISTS unidade (
 );
 ALTER TABLE departamento
 ADD IF NOT EXISTS chefe BIGINT REFERENCES usuario;
-ALTER TABLE sala
+ALTER TABLE ordem_servico
 ADD IF NOT EXISTS bem_patrimonial_id BIGINT REFERENCES bem_patrimonial;
