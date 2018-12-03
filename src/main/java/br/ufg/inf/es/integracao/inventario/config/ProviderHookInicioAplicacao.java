@@ -13,7 +13,7 @@ public class ProviderHookInicioAplicacao
   private final HookExecutarDdl hookDdl;
 
   @Inject
-  public ProviderHookInicioAplicacao(HookExecutarDdl hookDdl) {
+  public ProviderHookInicioAplicacao(final HookExecutarDdl hookDdl) {
     this.hookDdl = hookDdl;
   }
 

@@ -63,4 +63,3 @@ atlassian-ide-plugin.xml
 
 # NetBeans specific files/directories
 .nbattrs
-src/main/java/br/ufg/inf/es/integracao/inventario/config/parametros/ParametrosDesenvolvimento.java
