@@ -11,16 +11,89 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class BaixaBem {
-  private final Supplier<Connection> connectionProvider;
-
-  private static final Charset DDL_FILE_CHARSET = Charset.forName("UTF-8");
-  private static final String INSERT_SQL = "/baixabem/insert_baixabem.sql";
-  private static final String SELECT_SQL = "/baixabem/select_baixabem.sql";
-  private static final String DELETE_SQL = "/baixabem/delete_baixabem.sql";
-
+public class BaixaBemRepository extends Repositorio {
   @Inject
-  public BaixaBemRepository(final Supplier<Connection> connectionProvider) {
-    this.connectionProvider = connectionProvider;
+  public BaixaBemRepository(final Supplier<Connection> connectionSupplier) {
+    super(connectionSupplier);
+  }
+
+  public List<BaixaBem> encontreTodos() {
+    try {
+      final List<BaixaBem> baixas = new LinkedList<>();
+
+      iterateResultsOf(
+        "SELECT * FROM baixabem",
+        resultSet -> baixas.add(new BaixaBem(resultSet))
+      );
+
+      return baixas;
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  public Optional<BaixaBem> encontrePorId(final Long id) {
+    try {
+      final PreparedStatement statement = prepareStatement(
+        "SELECT * FROM baixabem WHERE id = ?"
+      );
+
+      statement.setLong(1, id);
+
+      return singleResult(statement, BaixaBem::new);
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  public Optional<BaixaBem> encontrePorNome(final String nome) {
+    try {
+      final PreparedStatement statement = prepareStatement(
+        "SELECT * FROM baixabem WHERE nome = ?"
+      );
+
+      statement.setString(1, nome);
+      return singleResult(statement, BaixaBem::new);
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  public void inserirBaixaBem(final BaixaBem baixa) {
+    try {
+      final PreparedStatement statement = prepareStatement(
+        "INSERT INTO baixabem (nome, email, senha) VALUES (?, ?, ?)"
+      );
+
+      statement.setString(1, baixa.getNome());
+      statement.setString(2, baixa.getEmail());
+      statement.setString(3, baixa.getSenha());
+
+      statement.execute();
+
+      final Optional<BaixaBem> persistido = encontrePorNome(baixa.getNome());
+      persistido.ifPresent(p -> baixa.setId(p.getId()));
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  public void atualizeBem(final long idASerEditado, final BaixaBem baixa) {
+    try {
+      final PreparedStatement statement = prepareStatement(
+        "UPDATE baixabem SET nome = ?, email = ?, senha = ? "
+          + "WHERE id = ?"
+      );
+
+      statement.setString(1, usuario.getNome());
+      statement.setString(2, usuario.getEmail());
+      statement.setString(3, usuario.getSenha());
+      statement.setLong(4, idASerEditado);
+
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+
+
   }
 }
