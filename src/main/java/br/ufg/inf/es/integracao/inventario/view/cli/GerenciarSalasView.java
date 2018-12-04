@@ -3,7 +3,6 @@ package br.ufg.inf.es.integracao.inventario.view.cli;
 import br.ufg.inf.es.integracao.inventario.dominio.GerenciadorSalas;
 import br.ufg.inf.es.integracao.inventario.dominio.entidade.Sala;
 import br.ufg.inf.es.integracao.inventario.dominio.seguranca.ContextoSeguranca;
-import sun.rmi.runtime.Log;
 
 import javax.inject.Inject;
 import java.io.PrintStream;
