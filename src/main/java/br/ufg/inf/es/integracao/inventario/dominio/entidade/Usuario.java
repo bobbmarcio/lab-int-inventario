@@ -2,6 +2,7 @@ package br.ufg.inf.es.integracao.inventario.dominio.entidade;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collection;
 
 public class Usuario {
 
@@ -16,6 +17,8 @@ public class Usuario {
   // TODO: Mapear diretamente a entidade sala
   private Long idSala;
 
+  private Collection<UsuarioPapel> papeis;
+
   public Usuario() {
   }
 
@@ -29,6 +32,14 @@ public class Usuario {
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
+  }
+
+  public Collection<UsuarioPapel> getPapeis() {
+    return papeis;
+  }
+
+  public void setPapeis(Collection<UsuarioPapel> papeis) {
+    this.papeis = papeis;
   }
 
   public Long getId() {

@@ -39,6 +39,10 @@ public class GerenciadorUsuarios {
     repositorioUsuario.atualizeUsuario(idDoUsuario, usuario);
   }
 
+  public void apagarUsuarioPorId(final long id) {
+    repositorioUsuario.apagaUsuario(id);
+  }
+
   public List<Usuario> listarTodos() {
     return repositorioUsuario.encontreTodos();
   }
