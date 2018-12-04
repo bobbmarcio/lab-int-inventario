@@ -96,5 +96,3 @@ SELECT * FROM (SELECT 1, 'admin') AS tmp
 WHERE NOT EXISTS (
     SELECT usuario_id FROM usuario_papel WHERE usuario_id = 1
 ) LIMIT 1;
-
-CREATE sequence ordem_servico_seq;
