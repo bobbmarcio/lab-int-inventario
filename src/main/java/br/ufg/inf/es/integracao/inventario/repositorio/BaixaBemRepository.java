@@ -1,5 +1,6 @@
 package br.ufg.inf.es.integracao.inventario.repositorio;
 
+import br.ufg.inf.es.integracao.inventario.dominio.entidade.BaixaBem;
 import br.ufg.inf.es.integracao.inventario.dominio.entidade.Predio;
 import org.apache.commons.io.IOUtils;
 import javax.inject.Inject;
@@ -8,6 +9,7 @@ import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Supplier;
 

@@ -20,6 +20,9 @@ public class MenuPrincipalView {
   private GerenciarPrediosView gerenciarPrediosView;
 
   @Inject
+  private GerenciarSalasView gerenciarSalasView;
+
+  @Inject
   public MenuPrincipalView(
     PrintStream out,
     Scanner in,
@@ -55,6 +58,7 @@ public class MenuPrincipalView {
           gerenciarPrediosView.inicie();
           break;
         case 3: // Gerenciar salas
+          gerenciarSalasView.inicie();
           break;
         case 99: // Sair
           saiu = true;
