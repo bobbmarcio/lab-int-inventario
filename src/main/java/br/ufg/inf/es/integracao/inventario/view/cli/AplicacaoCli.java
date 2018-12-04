@@ -8,15 +8,21 @@ import java.util.Collection;
 
 public class AplicacaoCli extends Aplicacao<String[]> {
 
+  private final LoginView loginView;
+
   @Inject
-  public AplicacaoCli(Collection<HookInicioAplicacao> hooksInicio) {
+  public AplicacaoCli(
+    final Collection<HookInicioAplicacao> hooksInicio,
+    final LoginView loginView
+  ) {
     super(hooksInicio);
+    this.loginView = loginView;
   }
 
   @Override
   public void run(final String[] parametros) {
     super.run(parametros);
-    // TODO: Implementar aplicação
+    loginView.inicie();
   }
 
 }

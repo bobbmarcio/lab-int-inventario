@@ -8,9 +8,10 @@ import br.ufg.inf.es.integracao.inventario.view.cli.AplicacaoCli;
 import com.google.inject.AbstractModule;
 import com.google.inject.TypeLiteral;
 
-import javax.inject.Provider;
+import java.io.PrintStream;
 import java.sql.Connection;
 import java.util.Collection;
+import java.util.Scanner;
 import java.util.function.Supplier;
 
 /**
@@ -35,26 +36,16 @@ public class ModuloAplicacao extends AbstractModule {
   protected void configure() {
     bind(new TypeLiteral<Aplicacao<String[]>>() {}).to(AplicacaoCli.class);
     bind(new TypeLiteral<Supplier<Connection>>() {}).to(ConexaoProvider.class);
+
     bind(new TypeLiteral<Collection<HookInicioAplicacao>>() {})
       .toProvider(ProviderHookInicioAplicacao.class);
-    bind(Ambiente.class).toProvider(new AmbienteSupplier(ambiente));
+
+    bind(Ambiente.class).toProvider(() -> ambiente);
+    bind(Scanner.class).toProvider(() -> new Scanner(System.in));
+    bind(PrintStream.class).toProvider(() -> System.out);
 
     if (ambiente == Ambiente.DESENVOLVIMENTO) {
       bind(Parametros.class).to(ParametrosDesenvolvimento.class);
-    }
-  }
-
-  private static class AmbienteSupplier implements Provider<Ambiente> {
-
-    private final Ambiente ambiente;
-
-    public AmbienteSupplier(Ambiente ambiente) {
-      this.ambiente = ambiente;
-    }
-
-    @Override
-    public Ambiente get() {
-      return ambiente;
     }
   }
 
