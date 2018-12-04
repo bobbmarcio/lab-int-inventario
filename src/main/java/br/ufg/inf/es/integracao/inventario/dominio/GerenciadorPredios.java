@@ -2,7 +2,6 @@ package br.ufg.inf.es.integracao.inventario.dominio;
 
 import br.ufg.inf.es.integracao.inventario.dominio.entidade.Predio;
 import br.ufg.inf.es.integracao.inventario.repositorio.PredioRepository;
-import br.ufg.inf.es.integracao.inventario.repositorio.SalaRepository;
 
 import javax.inject.Inject;
 import java.util.List;

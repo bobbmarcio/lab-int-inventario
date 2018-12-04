@@ -23,6 +23,9 @@ public class MenuPrincipalView {
   private GerenciarSalasView gerenciarSalasView;
 
   @Inject
+  private GerenciarDepartamentosView gerenciarDepartamentosView;
+
+  @Inject
   public MenuPrincipalView(
     PrintStream out,
     Scanner in,
@@ -60,6 +63,9 @@ public class MenuPrincipalView {
         case 3: // Gerenciar salas
           gerenciarSalasView.inicie();
           break;
+        case 4: //Gerenciar Departamentos
+          gerenciarDepartamentosView.inicie();
+          break;
         case 99: // Sair
           saiu = true;
           break;
@@ -82,6 +88,7 @@ public class MenuPrincipalView {
     out.println("     1) Gerenciar usuários");
     out.println("     2) Gerenciar prédios");
     out.println("     3) Gerenciar salas");
+    out.println("     4) Gerenciar Departamentos");
     out.println("    99) Sair");
     out.println();
   }
