@@ -19,7 +19,7 @@ public class GerenciadorUsuarios {
     final Usuario usuario = new Usuario();
     usuario.setNome(nome);
     usuario.setEmail(email);
-    usuario.setNome(senha);
+    usuario.setSenha(senha);
 
     repositorioUsuario.inserirUsuario(usuario);
     return usuario;

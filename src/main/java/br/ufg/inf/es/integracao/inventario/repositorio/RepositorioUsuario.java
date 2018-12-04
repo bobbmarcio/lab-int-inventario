@@ -65,7 +65,7 @@ public class RepositorioUsuario extends Repositorio {
   public void inserirUsuario(final Usuario usuario) {
     try {
       final PreparedStatement statement = prepareStatement(
-        "INSERT INTO usuario (nome, email, senha) VALUES (?, ?, ?)"
+        "INSERT INTO usuario (id, nome, email, senha) VALUES ((SELECT nextval('usuario_id_seq')), ?, ?, ?)"
       );
 
       statement.setString(1, usuario.getNome());

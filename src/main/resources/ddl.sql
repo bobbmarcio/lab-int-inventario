@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS unidade (
 	nome    TEXT,
 	email   TEXT,
 	senha   TEXT,
-	sala_id BIGINT REFERENCES unidade
+	unidade_id BIGINT REFERENCES unidade
 );
  CREATE TABLE IF NOT EXISTS usuario_papel (
 	usuario_id BIGINT REFERENCES usuario,
@@ -82,12 +82,12 @@ ADD IF NOT EXISTS chefe BIGINT REFERENCES usuario;
 ALTER TABLE ordem_servico
 ADD IF NOT EXISTS bem_patrimonial_id BIGINT REFERENCES bem_patrimonial;
 INSERT INTO unidade (id, nome, endereco, cidade, uf, cep)
-SELECT * FROM (SELECT 1, 'Matriz', 'Administração', 'Goiânia', 'GO', '74000000') AS tmp
+SELECT * FROM (SELECT (SELECT nextval('unidade_id_seq')), 'Matriz', 'Administração', 'Goiânia', 'GO', '74000000') AS tmp
 WHERE NOT EXISTS (
     SELECT id FROM unidade WHERE id = 1
 ) LIMIT 1;
-INSERT INTO usuario (id, nome, email, senha, sala_id)
-SELECT * FROM (SELECT 1, 'admin', 'admin@admin.com', 'admin', 1) AS tmp
+INSERT INTO usuario (id, nome, email, senha, unidade_id)
+SELECT * FROM (SELECT (SELECT nextval('usuario_id_seq')), 'admin', 'admin@admin.com', 'admin', 1) AS tmp
 WHERE NOT EXISTS (
     SELECT nome FROM usuario WHERE nome = 'admin'
 ) LIMIT 1;
