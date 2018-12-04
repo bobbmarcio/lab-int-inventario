@@ -1,10 +1,12 @@
 package br.ufg.inf.es.integracao.inventario.dominio.seguranca;
 
 import br.ufg.inf.es.integracao.inventario.dominio.entidade.Usuario;
+import br.ufg.inf.es.integracao.inventario.dominio.entidade.UsuarioPapel;
 import br.ufg.inf.es.integracao.inventario.repositorio.RepositorioUsuario;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.util.List;
 import java.util.Optional;
 
 @Singleton
@@ -53,6 +55,9 @@ public class ContextoSeguranca {
     }
 
     usuarioLogado = usuario;
+
+    final List<UsuarioPapel> papeis = repositorioUsuario.buscarPapeis(usuario);
+    usuario.setPapeis(papeis);
   }
 
   private boolean senhaBate(final Usuario usuario, final String senha) {

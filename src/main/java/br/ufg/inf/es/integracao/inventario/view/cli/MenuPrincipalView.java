@@ -63,6 +63,7 @@ public class MenuPrincipalView {
   }
 
   private void printMenu() {
+    out.println();
     out.println("- Menu principal");
     out.println();
     out.println("  Opções:");

@@ -37,11 +37,13 @@ public class LoginView {
       String nome;
       String senha;
 
-      out.println("Logue antes de continuar");
-      out.print("Usuario: ");
+      out.println();
+      out.println("Logue antes de continuar:");
+      out.println();
+      out.print("> Usuario: ");
       nome = in.nextLine();
 
-      out.print("Senha: ");
+      out.print("> Senha: ");
       senha = in.nextLine();
 
       try {
