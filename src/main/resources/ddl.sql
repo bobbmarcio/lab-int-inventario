@@ -74,8 +74,7 @@ CREATE TABLE IF NOT EXISTS unidade (
 	situacao         VARCHAR(50),
 	inicio_servico   DATE,
 	fim_servico      DATE,
-	responsavel_id   BIGINT REFERENCES usuario,
-	ordem_servico_id BIGINT REFERENCES ordem_servico
+	responsavel_id   BIGINT REFERENCES usuario
 );
 ALTER TABLE departamento
 ADD IF NOT EXISTS chefe BIGINT REFERENCES usuario;
