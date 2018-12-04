@@ -98,7 +98,7 @@ public class GerenciarDepartamentosView {
     out.println("-----------");
     out.println("Lista de departamentos");
     out.println();
-    out.println("ID\tNome\tchefe");
+    out.println("ID\tNome\tChefe");
     out.println("----------------------------------------------");
 
     final List<Departamento> departamentos = gerenciadorDepartamentos.listarTodos();

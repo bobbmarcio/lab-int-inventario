@@ -68,11 +68,17 @@ public class RepositorioUsuario extends Repositorio {
         "INSERT INTO usuario (id, nome, email, senha) VALUES ((SELECT nextval('usuario_id_seq')), ?, ?, ?)"
       );
 
+      final PreparedStatement statement1 = prepareStatement(
+        "INSERT INTO usuario_papel (usuario_id, papel) VALUES ((SELECT nextval('usuario_id_seq') - 1), 'usuario')"
+      );
+
       statement.setString(1, usuario.getNome());
       statement.setString(2, usuario.getEmail());
       statement.setString(3, usuario.getSenha());
 
       statement.execute();
+
+      statement1.execute();
 
       final Optional<Usuario> persistido = encontrePorNome(usuario.getNome());
       persistido.ifPresent(p -> usuario.setId(p.getId()));
@@ -103,11 +109,18 @@ public class RepositorioUsuario extends Repositorio {
   public void apagaUsuario(final long idASerApagado) {
     try {
       final PreparedStatement statement = prepareStatement(
+        "DELETE FROM usuario_papel WHERE usuario_id = ?"
+      );
+
+      final PreparedStatement statement1 = prepareStatement(
         "DELETE FROM usuario WHERE id = ?"
       );
 
       statement.setLong(1, idASerApagado);
       statement.executeUpdate();
+
+      statement1.setLong(1, idASerApagado);
+      statement1.execute();
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
