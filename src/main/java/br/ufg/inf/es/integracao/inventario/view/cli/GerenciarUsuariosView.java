@@ -44,6 +44,8 @@ public class GerenciarUsuariosView {
           inicieCadastro();
           break;
         case 2: // Editar
+          inicieAlterarUsuario();
+          break;
         case 3: // Apagar
         case 4: // Listar
           inicieListarUsuarios();
@@ -137,5 +139,18 @@ public class GerenciarUsuariosView {
 
     gerenciadorUsuarios.atualizaUsuario(id, nome, senha, email);
     out.println("\nUsuário alterado com sucesso");
+  }
+
+  private void inicieApagarUsuario() {
+    out.println();
+    out.println("-----------");
+    out.println();
+    out.println("Apagar usuário\n");
+
+    out.print("> Digite o id do usuário a ser apagado: ");
+    final long id = Long.parseLong(in.nextLine());
+
+    gerenciadorUsuarios.apagarUsuarioPorId(id);
+    out.println("\nUsuário apagado com sucesso");
   }
 }
