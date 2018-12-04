@@ -1,5 +1,8 @@
 package br.ufg.inf.es.integracao.inventario.dominio.entidade;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 public class Unidade {
 
   private Long id;
@@ -8,6 +11,22 @@ public class Unidade {
   private String cidade;
   private String uf;
   private String cep;
+
+  public Unidade() {
+  }
+
+  public Unidade(final ResultSet resultSet) {
+    try {
+      id = resultSet.getLong("id");
+      nome = resultSet.getString("nome");
+      endereco = resultSet.getString("endereco");
+      cidade = resultSet.getString("cidade");
+      uf = resultSet.getString("uf");
+      cep = resultSet.getString("cep");
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
 
   public String getNome() {
     return nome;

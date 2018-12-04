@@ -47,6 +47,8 @@ public class GerenciarUsuariosView {
           inicieAlterarUsuario();
           break;
         case 3: // Apagar
+          inicieApagarUsuario();
+          break;
         case 4: // Listar
           inicieListarUsuarios();
           break;

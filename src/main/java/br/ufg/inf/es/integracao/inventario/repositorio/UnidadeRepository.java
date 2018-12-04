@@ -1,88 +1,117 @@
 package br.ufg.inf.es.integracao.inventario.repositorio;
 
 import br.ufg.inf.es.integracao.inventario.dominio.entidade.Unidade;
-import org.apache.commons.io.IOUtils;
 
 import javax.inject.Inject;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.Charset;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Supplier;
 
-public class UnidadeRepository {
-
-  private final Supplier<Connection> connectionProvider;
-
-  private static final Charset DDL_FILE_CHARSET = Charset.forName("UTF-8");
-  private static final String INSERT_SQL = "/unidade/insert_unidade.sql";
-  private static final String SELECT_SQL = "/unidade/select_unidade.sql";
-  private static final String DELETE_SQL = "/unidade/delete_unidade.sql";
+public class UnidadeRepository extends Repositorio {
 
   @Inject
-  public UnidadeRepository(final Supplier<Connection> connectionProvider) {
-    this.connectionProvider = connectionProvider;
+  public UnidadeRepository(final Supplier<Connection> connectionSupplier) {
+    super(connectionSupplier);
   }
 
-  public void save(Unidade unidade) throws IOException, SQLException {
-    final String sql = this.loadSql(INSERT_SQL);
+  public List<Unidade> encontreTodos() {
+    try {
+      final List<Unidade> unidades = new LinkedList<>();
 
-    final Connection connection = connectionProvider.get();
+      iterateResultsOf(
+        "SELECT * FROM unidade",
+        resultSet -> unidades  .add(new Unidade(resultSet))
+      );
 
-    final PreparedStatement statement = connection.prepareStatement(sql);
-    statement.setString(1, unidade.getNome());
-    statement.setString(2, unidade.getEndereco());
-    statement.setString(3, unidade.getCidade());
-    statement.setString(4, unidade.getUf());
-    statement.setString(5, unidade.getCep());
-    statement.executeUpdate();
-  }
-
-  public List<Unidade> fetchAll() throws IOException, SQLException {
-    final List<Unidade> unidades = new ArrayList<>();
-
-    final String sql = this.loadSql(SELECT_SQL);
-
-    final Connection connection = connectionProvider.get();
-
-    Statement statement = connection.createStatement();
-    ResultSet resultSet = statement.executeQuery(sql);
-
-    while (resultSet.next()) {
-      final Unidade unidade = new Unidade();
-      unidade.setId(resultSet.getLong("id"));
-      unidade.setNome(resultSet.getString("nome"));
-      unidade.setEndereco(resultSet.getString("endereco"));
-      unidade.setCidade(resultSet.getString("cidade"));
-      unidade.setUf(resultSet.getString("uf"));
-      unidade.setCep(resultSet.getString("cep"));
-
-      unidades.add(unidade);
+      return unidades;
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
     }
-
-    return unidades;
   }
 
-  public void delete(Long id) throws IOException, SQLException {
-    final String sql = this.loadSql(DELETE_SQL);
+  public Optional<Unidade> encontrePorId(final Long id) {
+    try {
+      final PreparedStatement statement = prepareStatement(
+        "SELECT * FROM unidade WHERE id = ?"
+      );
 
-    final Connection connection = connectionProvider.get();
+      statement.setLong(1, id);
 
-    final PreparedStatement statement = connection.prepareStatement(sql);
-    statement.setLong(1, id);
-    statement.executeUpdate();
-  }
-
-  private String loadSql(String sqlName) throws IOException {
-    final InputStream stream = getClass().getResourceAsStream(INSERT_SQL);
-
-    if (stream == null) {
-      throw new RuntimeException("Insert Sql não encontrado");
+      return singleResult(statement, Unidade::new);
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
     }
-
-    return IOUtils.toString(stream, DDL_FILE_CHARSET);
   }
 
+  public Optional<Unidade> encontrePorNome(final String nome) {
+    try {
+      final PreparedStatement statement = prepareStatement(
+        "SELECT * FROM sala WHERE nome = ?"
+      );
+
+      statement.setString(1, nome);
+      return singleResult(statement, Unidade::new);
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  public void inserirUnidade(final Unidade unidade) {
+    try {
+      final PreparedStatement statement = prepareStatement(
+        "INSERT INTO unidade (id, nome, endereco, cidade, uf, cep) VALUES ((SELECT nextval('unidade_id_seq')), ?, ?, ?, ?, ?)"
+      );
+
+      statement.setString(1, unidade.getNome());
+      statement.setString(2, unidade.getEndereco());
+      statement.setString(3, unidade.getCidade());
+      statement.setString(4, unidade.getUf());
+      statement.setString(5, unidade.getCep());
+
+      statement.execute();
+
+      final Optional<Unidade> persistido = encontrePorNome(unidade.getNome());
+      persistido.ifPresent(p -> unidade.setId(p.getId()));
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  public void atualizeUnidade(final long idASerEditado, final Unidade unidade) {
+    try {
+      final PreparedStatement statement = prepareStatement(
+        "UPDATE unidade SET nome = ?, endereco = ?, cidade = ?, uf = ?, cep = ? "
+          + "WHERE id = ?"
+      );
+
+      statement.setString(1, unidade.getNome());
+      statement.setString(2, unidade.getEndereco());
+      statement.setString(3, unidade.getCidade());
+      statement.setString(4, unidade.getUf());
+      statement.setLong(5, idASerEditado);
+
+      statement.execute();
+
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  public void apagaUnidade(final long idASerApagado) {
+    try {
+      final PreparedStatement statement = prepareStatement(
+        "DELETE FROM unidade WHERE id = ?"
+      );
+
+      statement.setLong(1, idASerApagado);
+      statement.executeUpdate();
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
 }

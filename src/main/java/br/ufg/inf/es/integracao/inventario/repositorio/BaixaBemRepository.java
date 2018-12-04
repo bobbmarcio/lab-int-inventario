@@ -13,7 +13,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class BaixaBem {
+public class BaixaBemRepository {
   private final Supplier<Connection> connectionProvider;
 
   private static final Charset DDL_FILE_CHARSET = Charset.forName("UTF-8");

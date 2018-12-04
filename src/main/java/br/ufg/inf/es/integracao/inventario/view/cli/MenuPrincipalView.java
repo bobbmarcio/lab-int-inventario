@@ -25,7 +25,11 @@ public class MenuPrincipalView {
   @Inject
   private GerenciarDepartamentosView gerenciarDepartamentosView;
 
-  @Inject GerenciarOrdemServicosView gerenciarOrdemServicosView;
+  @Inject
+  private GerenciarOrdemServicosView gerenciarOrdemServicosView;
+
+  @Inject
+  private GerenciarUnidadesView gerenciarUnidadesView;
 
   @Inject
   public MenuPrincipalView(
@@ -69,6 +73,9 @@ public class MenuPrincipalView {
           gerenciarDepartamentosView.inicie();
           break;
         case 5:
+          gerenciarUnidadesView.inicie();
+          break;
+        case 6:
           gerenciarOrdemServicosView.inicie();
           break;
         case 99: // Sair
@@ -94,7 +101,8 @@ public class MenuPrincipalView {
     out.println("     2) Gerenciar prédios");
     out.println("     3) Gerenciar salas");
     out.println("     4) Gerenciar departamentos");
-    out.println("     5) Registrar ordem de serviço");
+    out.println("     5) Gerenciar unidades");
+    out.println("     6) Registrar ordem de serviço");
     out.println("    99) Sair");
     out.println();
   }

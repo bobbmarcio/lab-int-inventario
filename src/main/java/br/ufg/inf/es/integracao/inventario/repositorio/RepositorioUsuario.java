@@ -93,6 +93,8 @@ public class RepositorioUsuario extends Repositorio {
       statement.setString(3, usuario.getSenha());
       statement.setLong(4, idASerEditado);
 
+      statement.execute();
+
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
