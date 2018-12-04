@@ -1,81 +1,113 @@
 package br.ufg.inf.es.integracao.inventario.repositorio;
 
+
 import br.ufg.inf.es.integracao.inventario.dominio.entidade.Predio;
-import org.apache.commons.io.IOUtils;
+
 import javax.inject.Inject;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.Charset;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Supplier;
 
-public class PredioRepository {
-
-  private final Supplier<Connection> connectionProvider;
-
-  private static final Charset DDL_FILE_CHARSET = Charset.forName("UTF-8");
-  private static final String INSERT_SQL = "/predio/insert_predio.sql";
-  private static final String SELECT_SQL = "/predio/select_predio.sql";
-  private static final String DELETE_SQL = "/predio/delete_predio.sql";
+public class PredioRepository extends Repositorio {
 
   @Inject
-  public PredioRepository(final Supplier<Connection> connectionProvider) {
-    this.connectionProvider = connectionProvider;
+  public PredioRepository(final Supplier<Connection> connectionSupplier) {
+    super(connectionSupplier);
   }
 
-  public void save(Predio predio) throws IOException, SQLException {
-    final String sql = this.loadSql(INSERT_SQL);
+  public List<Predio> encontreTodos() {
+    try {
+      final List<Predio> predios = new LinkedList<>();
 
-    final Connection connection = connectionProvider.get();
+      iterateResultsOf(
+        "SELECT * FROM predio",
+        resultSet -> predios.add(new Predio(resultSet))
+      );
 
-    final PreparedStatement statement = connection.prepareStatement(sql);
-    statement.setString(1, predio.getNome());
-    statement.setLong(2, predio.getUnidadeId());
-    statement.executeUpdate();
-  }
-
-  public List<Predio> fetchAll() throws IOException, SQLException {
-    final List<Predio> predios = new ArrayList<>();
-
-    final String sql = this.loadSql(SELECT_SQL);
-
-    final Connection connection = connectionProvider.get();
-
-    Statement statement = connection.createStatement();
-    ResultSet resultSet = statement.executeQuery(sql);
-
-    while (resultSet.next()) {
-      final Predio predio = new Predio();
-      predio.setId(resultSet.getLong("id"));
-      predio.setNome(resultSet.getString("nome"));
-      predio.setUnidadeId(resultSet.getLong("unidade_id"));
-
-      predios.add(predio);
+      return predios;
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
     }
-
-    return predios;
   }
 
-  public void delete(Long id) throws IOException, SQLException {
-    final String sql = this.loadSql(DELETE_SQL);
+  public Optional<Predio> encontrePorId(final Long id) {
+    try {
+      final PreparedStatement statement = prepareStatement(
+        "SELECT * FROM predio WHERE id = ?"
+      );
 
-    final Connection connection = connectionProvider.get();
+      statement.setLong(1, id);
 
-    final PreparedStatement statement = connection.prepareStatement(sql);
-    statement.setLong(1, id);
-    statement.executeUpdate();
-  }
-
-  private String loadSql(String sqlName) throws IOException {
-    final InputStream stream = getClass().getResourceAsStream(INSERT_SQL);
-
-    if (stream == null) {
-      throw new RuntimeException("Insert Sql não encontrado");
+      return singleResult(statement, Predio::new);
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
     }
-
-    return IOUtils.toString(stream, DDL_FILE_CHARSET);
   }
 
+  public Optional<Predio> encontrePorNome(final String nome) {
+    try {
+      final PreparedStatement statement = prepareStatement(
+        "SELECT * FROM predio WHERE nome = ?"
+      );
+
+      statement.setString(1, nome);
+      return singleResult(statement, Predio::new);
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  public void inserirPredio(final Predio predio) {
+    try {
+      final PreparedStatement statement = prepareStatement(
+        "INSERT INTO predio (id, nome, unidade_id) VALUES ((SELECT nextval('predio_id_seq')), ?, ?)"
+      );
+
+      statement.setString(1, predio.getNome());
+      statement.setLong(2, predio.getIdUnidade());
+
+      statement.execute();
+
+      final Optional<Predio> persistido = encontrePorNome(predio.getNome());
+      persistido.ifPresent(p -> predio.setId(p.getId()));
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  public void atualizePredio(final long idASerEditado, final Predio predio) {
+    try {
+      final PreparedStatement statement = prepareStatement(
+        "UPDATE predio SET nome = ?, unidade_id = ? "
+          + "WHERE id = ?"
+      );
+
+      statement.setString(1, predio.getNome());
+      statement.setLong(2, predio.getIdUnidade());
+      statement.setLong(3, idASerEditado);
+
+      statement.execute();
+
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  public void apagaPredio(final long idASerApagado) {
+    try {
+      final PreparedStatement statement = prepareStatement(
+        "DELETE FROM predio WHERE id = ?"
+      );
+
+      statement.setLong(1, idASerApagado);
+      statement.executeUpdate();
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
 }
