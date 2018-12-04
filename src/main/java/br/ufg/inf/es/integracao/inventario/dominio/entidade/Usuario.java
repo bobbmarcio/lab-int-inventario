@@ -13,8 +13,8 @@ public class Usuario {
 
   private String senha;
 
-  // TODO: Mapear diretamente a entidade sala
-  private Long idSala;
+  // TODO: Mapear diretamente a entidade unidade
+  private Long idUnidade;
 
   public Usuario() {
   }
@@ -25,7 +25,7 @@ public class Usuario {
       nome = resultSet.getString("nome");
       email = resultSet.getString("email");
       senha = resultSet.getString("senha");
-      idSala = resultSet.getLong("sala_id");
+      idUnidade = resultSet.getLong("unidade_id");
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
@@ -63,12 +63,12 @@ public class Usuario {
     this.senha = senha;
   }
 
-  public Long getIdSala() {
-    return idSala;
+  public Long getIdUnidade() {
+    return idUnidade;
   }
 
-  public void setIdSala(Long idSala) {
-    this.idSala = idSala;
+  public void setIdUnidade(Long idUnidade) {
+    this.idUnidade = idUnidade;
   }
 
 }
