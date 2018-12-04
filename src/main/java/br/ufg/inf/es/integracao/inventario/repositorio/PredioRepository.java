@@ -1,6 +1,6 @@
 package br.ufg.inf.es.integracao.inventario.repositorio;
 
-import br.ufg.inf.es.integracao.inventario.dominio.entidade.Sala;
+import br.ufg.inf.es.integracao.inventario.dominio.entidade.Predio;
 import org.apache.commons.io.IOUtils;
 import javax.inject.Inject;
 import java.io.IOException;
@@ -11,35 +11,33 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class SalaRepository {
+public class PredioRepository {
 
   private final Supplier<Connection> connectionProvider;
 
   private static final Charset DDL_FILE_CHARSET = Charset.forName("UTF-8");
-  private static final String INSERT_SQL = "/sala/insert_sala.sql";
-  private static final String SELECT_SQL = "/sala/select_sala.sql";
-  private static final String DELETE_SQL = "/sala/delete_sala.sql";
+  private static final String INSERT_SQL = "/predio/insert_predio.sql";
+  private static final String SELECT_SQL = "/predio/select_predio.sql";
+  private static final String DELETE_SQL = "/predio/delete_predio.sql";
 
   @Inject
-  public SalaRepository(final Supplier<Connection> connectionProvider) {
+  public PredioRepository(final Supplier<Connection> connectionProvider) {
     this.connectionProvider = connectionProvider;
   }
 
-  public void save(Sala sala) throws IOException, SQLException {
+  public void save(Predio predio) throws IOException, SQLException {
     final String sql = this.loadSql(INSERT_SQL);
 
     final Connection connection = connectionProvider.get();
 
     final PreparedStatement statement = connection.prepareStatement(sql);
-    statement.setString(1, sala.getNome());
-    statement.setString(2, sala.getCodigo());
-    statement.setLong(3, sala.getPredioId());
-    statement.setLong(4, sala.getDepartamentoId());
+    statement.setString(1, predio.getNome());
+    statement.setLong(2, predio.getUnidadeId());
     statement.executeUpdate();
   }
 
-  public List<Sala> fetchAll() throws IOException, SQLException {
-    final List<Sala> salas = new ArrayList<>();
+  public List<Predio> fetchAll() throws IOException, SQLException {
+    final List<Predio> predios = new ArrayList<>();
 
     final String sql = this.loadSql(SELECT_SQL);
 
@@ -49,18 +47,15 @@ public class SalaRepository {
     ResultSet resultSet = statement.executeQuery(sql);
 
     while (resultSet.next()) {
-      final Sala sala = new Sala();
-      sala.setId(resultSet.getLong("id"));
-      sala.setNome(resultSet.getString("nome"));
-      sala.setCodigo(resultSet.getString("codigo"));
-      sala.setPredioId(resultSet.getLong("predio_id"));
-      sala.setDepartamentoId(resultSet.getLong("departamento_id"));
+      final Predio predio = new Predio();
+      predio.setId(resultSet.getLong("id"));
+      predio.setNome(resultSet.getString("nome"));
+      predio.setUnidadeId(resultSet.getLong("unidade_id"));
 
-
-      salas.add(sala);
+      predios.add(predio);
     }
 
-    return salas;
+    return predios;
   }
 
   public void delete(Long id) throws IOException, SQLException {
