@@ -1,11 +1,12 @@
 package br.ufg.inf.es.integracao.inventario.view.cli;
 
-import br.ufg.inf.es.integracao.inventario.dominio.entidades.Usuario;
+import br.ufg.inf.es.integracao.inventario.dominio.GerenciadorUsuarios;
+import br.ufg.inf.es.integracao.inventario.dominio.entidade.Usuario;
 import br.ufg.inf.es.integracao.inventario.dominio.seguranca.ContextoSeguranca;
-import br.ufg.inf.es.integracao.inventario.repositorio.RepositorioUsuario;
 
 import javax.inject.Inject;
 import java.io.PrintStream;
+import java.util.List;
 import java.util.Scanner;
 
 public class GerenciarUsuariosView {
@@ -16,7 +17,7 @@ public class GerenciarUsuariosView {
   private final ContextoSeguranca contextoSeguranca;
 
   @Inject
-  private RepositorioUsuario repositorioUsuario;
+  private GerenciadorUsuarios gerenciadorUsuarios;
 
   @Inject
   public GerenciarUsuariosView(
@@ -44,6 +45,9 @@ public class GerenciarUsuariosView {
           break;
         case 2: // Editar
         case 3: // Apagar
+        case 4: // Listar
+          inicieListarUsuarios();
+          break;
         case 99: // Sair
           saiu = true;
           break;
@@ -61,32 +65,77 @@ public class GerenciarUsuariosView {
     out.println("     1) Cadastrar usuário");
     out.println("     2) Editar usuário");
     out.println("     3) Apagar usuário");
+    out.println("     4) Listar usuários");
     out.println("    99) Voltar");
     out.println();
   }
 
   private void inicieCadastro() {
     out.println();
+    out.println("-----------");
     out.println("Cadastro de usuário");
     out.println();
 
-    out.print("  Digite o nome do usuário:");
+    out.print("> Digite o nome do usuário: ");
     final String nome = in.nextLine();
 
-    out.print("  Digite a senha do usuário:");
+    out.print("> Digite a senha do usuário: ");
     final String senha = in.nextLine();
 
-    out.print("  Digite o email do usuário:");
+    out.print("> Digite o email do usuário: ");
     final String email = in.nextLine();
 
-    final Usuario usuario = new Usuario();
-    usuario.setNome(nome);
-    usuario.setEmail(email);
-    usuario.setSenha(senha);
+    gerenciadorUsuarios.cadastrarNovoUsuario(nome, email, senha);
 
-    repositorioUsuario.inserirUsuario(usuario);
-
+    out.println();
     out.println("Usuário cadastrado com sucesso");
     out.println();
+  }
+
+  private void inicieListarUsuarios() {
+    out.println();
+    out.println("-----------");
+    out.println("Lista de usuários");
+    out.println();
+    out.println("ID\tNome\tEmail");
+    out.println("----------------------------------------------");
+
+    final List<Usuario> usuarios = gerenciadorUsuarios.listarTodos();
+
+    for (final Usuario usuario : usuarios) {
+      out.println(
+        String.format(
+          "%d\t%s\t%s",
+          usuario.getId(),
+          usuario.getNome(),
+          usuario.getEmail()
+        )
+      );
+    }
+
+    out.println("----------------------------------------------");
+    out.println("Aperte qualquer tecla para continuar...");
+    in.nextLine();
+  }
+
+  private void inicieAlterarUsuario() {
+    out.println();
+    out.println("-----------");
+    out.println();
+
+    out.print("Digite o ID do usuário a ser editado: ");
+    final int id = Integer.parseInt(in.nextLine());
+
+    out.print("Digite o novo nome do usuário: ");
+    final String nome = in.nextLine();
+
+    out.print("Digite a nova senha do usuário: ");
+    final String senha = in.nextLine();
+
+    out.print("Digite o novo email do usuário: ");
+    final String email = in.nextLine();
+
+    gerenciadorUsuarios.atualizaUsuario(id, nome, senha, email);
+    out.println("\nUsuário alterado com sucesso");
   }
 }

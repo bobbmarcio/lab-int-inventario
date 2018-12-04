@@ -1,6 +1,6 @@
 package br.ufg.inf.es.integracao.inventario.repositorio;
 
-import br.ufg.inf.es.integracao.inventario.dominio.entidades.Usuario;
+import br.ufg.inf.es.integracao.inventario.dominio.entidade.Usuario;
 
 import javax.inject.Inject;
 import java.sql.Connection;
@@ -62,7 +62,7 @@ public class RepositorioUsuario extends Repositorio {
 
   public void inserirUsuario(final Usuario usuario) {
     try {
-      final PreparedStatement statement = connectionSupplier.get().prepareStatement(
+      final PreparedStatement statement = prepareStatement(
         "INSERT INTO usuario (nome, email, senha) VALUES (?, ?, ?)"
       );
 
@@ -77,5 +77,24 @@ public class RepositorioUsuario extends Repositorio {
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
+  }
+
+  public void atualizeUsuario(final long idASerEditado, final Usuario usuario) {
+    try {
+      final PreparedStatement statement = prepareStatement(
+        "UPDATE usuario SET nome = ?, email = ?, senha = ? "
+          + "WHERE id = ?"
+      );
+
+      statement.setString(1, usuario.getNome());
+      statement.setString(2, usuario.getEmail());
+      statement.setString(3, usuario.getSenha());
+      statement.setLong(4, idASerEditado);
+
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+
+
   }
 }

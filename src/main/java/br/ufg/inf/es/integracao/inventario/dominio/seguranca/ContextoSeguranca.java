@@ -1,6 +1,6 @@
 package br.ufg.inf.es.integracao.inventario.dominio.seguranca;
 
-import br.ufg.inf.es.integracao.inventario.dominio.entidades.Usuario;
+import br.ufg.inf.es.integracao.inventario.dominio.entidade.Usuario;
 import br.ufg.inf.es.integracao.inventario.repositorio.RepositorioUsuario;
 
 import javax.inject.Inject;

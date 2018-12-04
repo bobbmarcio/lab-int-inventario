@@ -1,4 +1,4 @@
-package br.ufg.inf.es.integracao.inventario.dominio.entidades;
+package br.ufg.inf.es.integracao.inventario.dominio.entidade;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
