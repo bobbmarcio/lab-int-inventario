@@ -87,55 +87,55 @@ public class GerenciarBensView {
     out.println("Cadastro de bem patrimonial");
     out.println();
 
-    Locale us_ID = new Locale("en","US");
+    Locale us_ID = new Locale("en", "US");
     DecimalFormat nf = (DecimalFormat) NumberFormat.getInstance(us_ID);
     nf.setParseBigDecimal(true);
+
     final Date dataAq;
     final Date dataGarantia;
     out.print("> Digite a data de aquisicao: ");
     dataAq = Util.formataData(in.nextLine());
+
     out.print("> Digite o numero de tombamento: ");
     final String numTombamento = in.nextLine();
+
     out.print("> Digite o numero da nota fiscal: ");
     final String notaFiscal = in.nextLine();
+
     out.print("> Digite a vida util: ");
     final long vidaUtil = Long.parseLong(in.nextLine());
+
     out.print("> Digite a especificacao: ");
     final String especificacao = in.nextLine();
+
     out.print("> Digite a data de garantia: ");
     dataGarantia = Util.formataData(in.nextLine());
     out.print("> Digite a marca: ");
+
     final String marca = in.nextLine();
     out.print("> Digite o grupo: ");
+
     final String grupo = in.nextLine();
     out.print("> Digite o valor da compra: ");
-    final BigDecimal bd = (BigDecimal)nf.parse(in.nextLine(), new ParsePosition(0));
 
-    final Long chefe = Long.parseLong(in.nextLine());
+    final BigDecimal bd = new BigDecimal(in.nextLine());
 
-    gerenciadorBens.cadastrarNovoBemPatrimonial(dataAq,numTombamento,notaFiscal,vidaUtil,especificacao,dataGarantia,marca,grupo,bd);
+    gerenciadorBens.cadastrarNovoBemPatrimonial(
+      dataAq, numTombamento, notaFiscal, vidaUtil,
+      especificacao, dataGarantia, marca, grupo, bd
+    );
 
     out.println();
     out.println("Bem patrimonial cadastrado com sucesso");
     out.println();
   }
 
-//  data_aquisicao       DATE,
-//  numero_tombamento    TEXT,
-//  numero_nota_fiscal   TEXT,
-//  vida_util            BIGINT,
-//  especificacao        TEXT,
-//  data_garantia        DATE,
-//  marca                TEXT,
-//  grupo                VARCHAR(50),
-//  valor_compra         NUMERIC(20, 2),
-
   private void inicieListar() {
     out.println();
     out.println("-----------");
     out.println("Lista de bens patrimoniais");
     out.println();
-    out.println("ID\tNome\tchefe");
+    out.println("ID\tEspecificação\tNotaFiscal\tMarca\tTombamento");
     out.println("----------------------------------------------");
 
     final List<BemPatrimonial> bens = gerenciadorBens.listarTodos();
@@ -143,7 +143,7 @@ public class GerenciarBensView {
     for (final BemPatrimonial bem : bens) {
       out.println(
         String.format(
-          "%d\t%s\t%d\t%s\t%s",
+          "%d\t%s\t%s\t%s\t%s",
           bem.getId(),
           bem.getEspecificacao(),
           bem.getNumeroNotaFiscal(),
@@ -157,10 +157,7 @@ public class GerenciarBensView {
     out.println("Aperte qualquer tecla para continuar...");
     in.nextLine();
   }
-//  statement.setString(1, bemPatrimonial.getNumeroTombamento());
-//      statement.setString(2, bemPatrimonial.getNumeroNotaFiscal());
-//      statement.setString(3, bemPatrimonial.getEspecificacao());
-//      statement.setLong(4, idASerEditado);
+
   private void inicieAlterarBem() {
     out.println();
     out.println("-----------");
@@ -178,8 +175,7 @@ public class GerenciarBensView {
     out.print("Digite a nova especificação: ");
     final String especificacao = in.nextLine();
 
-   gerenciadorBens.atualizaBem(id, numeroTomb,notaFiscal,especificacao);
-//    out.println("\nDepartamento alterado com sucesso");
+    gerenciadorBens.atualizaBem(id, numeroTomb, notaFiscal, especificacao);
   }
 
   private void inicieApagar() {

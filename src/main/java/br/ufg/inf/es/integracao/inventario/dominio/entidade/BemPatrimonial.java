@@ -23,22 +23,30 @@ public class BemPatrimonial {
   private String numeroTombamento;
   private String numeroNotaFiscal;
   private long vidaUtil;
-  private String especificacao;;
+  private String especificacao;
   private Date dataGarantia;
   private String marca;
   private String grupo;
   private BigDecimal valorCompra;
   private boolean incorporado;
 
-  public BemPatrimonial(){
+  public BemPatrimonial() {
 
   }
 
   public BemPatrimonial(final ResultSet resultSet) {
     try {
       id = resultSet.getLong("id");
-      dataAquisicao = resultSet.getDate("dataAquisicao");
-      numeroTombamento = resultSet.getString("numeroTombamento");
+      dataAquisicao = resultSet.getDate("data_aquisicao");
+      numeroTombamento = resultSet.getString("numero_tombamento");
+      numeroNotaFiscal = resultSet.getString("numero_nota_fiscal");
+      vidaUtil = resultSet.getLong("vida_util");
+      especificacao = resultSet.getString("especificacao");
+      dataGarantia = resultSet.getDate("data_garantia");
+      marca = resultSet.getString("marca");
+      grupo = resultSet.getString("grupo");
+      valorCompra = resultSet.getBigDecimal("valor_compra");
+      incorporado = resultSet.getBoolean("incorporado");
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }

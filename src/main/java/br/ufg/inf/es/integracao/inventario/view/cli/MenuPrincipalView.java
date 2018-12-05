@@ -72,27 +72,39 @@ public class MenuPrincipalView {
         case 1: // Gerenciar usuários
           gerenciarUsuariosView.inicie();
           break;
+
         case 2: // Gerenciar prédios
           gerenciarPrediosView.inicie();
           break;
+
         case 3: // Gerenciar salas
           gerenciarSalasView.inicie();
           break;
+
         case 4: //Gerenciar Departamentos
           gerenciarDepartamentosView.inicie();
           break;
+
         case 5:
           gerenciarUnidadesView.inicie();
           break;
+
         case 6:
           gerenciarOrdemServicosView.inicie();
           break;
+
         case 7:
           gerenciarBensView.inicie();
+          break;
+
         case 8:
           gerenciarBaixasView.inicie();
+          break;
+
         case 9:
           gerenciarInventarioView.inicie();
+          break;
+
         case 99: // Sair
           saiu = true;
           break;

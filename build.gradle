@@ -13,6 +13,8 @@ dependencies {
   implementation group: 'commons-io', name: 'commons-io', version: '2.6'
 
   testImplementation 'junit:junit:4.12'
+  // https://mvnrepository.com/artifact/org.mockito/mockito-all
+  testImplementation group: 'org.mockito', name: 'mockito-all', version: '1.10.19'
 }
 
 // In this section you declare where to find the dependencies of your project

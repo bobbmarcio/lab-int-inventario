@@ -24,17 +24,17 @@ public class BemPatrimonialRepository extends Repositorio {
   public void inserirBemPatrimonial(final BemPatrimonial bem) {
     try {
       final PreparedStatement statement = prepareStatement(
-       "INSERT INTO bem_patrimonial (data_aquisicao, numero_tombamento, numero_nota_fiscal, vida_util, " +
-          "especificacao, data_garantia, marca, grupo, valor_compra, incorporado, localizacao_atual_id) " +
-         "VALUES (now(), ?, ?, ?, ?, ?, ?, ?, ?, ?, null, null)"
+        "INSERT INTO bem_patrimonial (" +
+          "data_aquisicao, numero_tombamento, numero_nota_fiscal, vida_util, especificacao, data_garantia, marca, grupo, valor_compra, incorporado, localizacao_atual_id) " +
+          "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, null, null)"
       );
 
-      statement.setDate(1, (Date) bem.getDataAquisicao());
+      statement.setDate(1, new Date(bem.getDataAquisicao().getTime()));
       statement.setString(2, bem.getNumeroTombamento());
       statement.setString(3, bem.getNumeroNotaFiscal());
       statement.setLong(4, bem.getVidaUtil());
       statement.setString(5, bem.getEspecificacao());
-      statement.setDate(6, (Date) bem.getDataGarantia());
+      statement.setDate(6, new Date(bem.getDataGarantia().getTime()));
       statement.setString(7, bem.getMarca());
       statement.setString(8, String.valueOf(bem.getGrupo()));
       statement.setBigDecimal(9, bem.getValorCompra());
@@ -46,10 +46,8 @@ public class BemPatrimonialRepository extends Repositorio {
     }
   }
 
-  public void deletarBemPatrimonial(int id)
-  {
-    try
-    {
+  public void deletarBemPatrimonial(int id) {
+    try {
       final PreparedStatement statement = prepareStatement(
         "DELETE FROM bem_patrimonial WHERE id = ?"
       );
@@ -57,7 +55,7 @@ public class BemPatrimonialRepository extends Repositorio {
       statement.setLong(1, id);
 
       statement.execute();
-    } catch (SQLException e){
+    } catch (SQLException e) {
       throw new RuntimeException(e);
     }
   }

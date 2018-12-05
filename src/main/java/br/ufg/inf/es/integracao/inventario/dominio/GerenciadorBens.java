@@ -27,7 +27,7 @@ public class GerenciadorBens {
     final String marca,
     final String grupo,
     final BigDecimal valorCompra
-    ) {
+  ) {
     final BemPatrimonial bemPatrimonial = new BemPatrimonial();
     bemPatrimonial.setDataAquisicao(dataAquisicao);
     bemPatrimonial.setDataGarantia(dataGarantia);
