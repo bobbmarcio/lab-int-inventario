@@ -84,7 +84,7 @@ public class GerenciarSalasView {
     final String nome = in.nextLine();
 
     out.print("> Digite o código da sala: ");
-    final String codigo = in.next();
+    final String codigo = in.nextLine();
 
     out.print("> Digite o id do prédio: ");
     final Long predioId = Long.parseLong(in.nextLine());
