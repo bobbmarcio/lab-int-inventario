@@ -109,7 +109,7 @@ public class GerenciarPrediosView {
           "%d\t%s\t%s",
           predio.getId(),
           predio.getNome(),
-          predio.getIdUnidade()
+          predio.getNomeUnidade()
         )
       );
     }
