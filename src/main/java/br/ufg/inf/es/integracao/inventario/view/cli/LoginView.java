@@ -55,6 +55,8 @@ public class LoginView {
           String.format("Erro ao logar: %s", e.getMessage())
         );
         out.println("Tente novamente");
+      } catch (Exception e) {
+        e.printStackTrace();
       }
     }
   }

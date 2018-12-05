@@ -32,6 +32,12 @@ public class MenuPrincipalView {
   private GerenciarUnidadesView gerenciarUnidadesView;
 
   @Inject
+  private GerenciarBaixasView gerenciarBaixasView;
+
+  @Inject
+  private GerenciarBensView gerenciarBensView;
+
+  @Inject
   public MenuPrincipalView(
     PrintStream out,
     Scanner in,
@@ -42,7 +48,7 @@ public class MenuPrincipalView {
     this.contextoSeguranca = contextoSeguranca;
   }
 
-  public void inicie() {
+  public void inicie() throws Exception {
     if (!contextoSeguranca.estaLogado()) {
       throw new RuntimeException("Apenas usuários logados podem ver o menu principal");
     }
@@ -50,7 +56,7 @@ public class MenuPrincipalView {
     pergunteMenu();
   }
 
-  private void pergunteMenu() {
+  private void pergunteMenu() throws Exception {
     boolean saiu = false;
 
     while (!saiu) {
@@ -78,6 +84,10 @@ public class MenuPrincipalView {
         case 6:
           gerenciarOrdemServicosView.inicie();
           break;
+        case 7:
+          gerenciarBensView.inicie();
+        case 8:
+          gerenciarBaixasView.inicie();
         case 99: // Sair
           saiu = true;
           break;
@@ -103,6 +113,8 @@ public class MenuPrincipalView {
     out.println("     4) Gerenciar departamentos");
     out.println("     5) Gerenciar unidades");
     out.println("     6) Registrar ordem de serviço");
+    out.println("     7) Gerenciar bem patrimonial");
+    out.println("     8) Baixar bem patrimonial");
     out.println("    99) Sair");
     out.println();
   }
