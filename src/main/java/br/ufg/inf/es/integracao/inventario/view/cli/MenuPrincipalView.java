@@ -38,6 +38,9 @@ public class MenuPrincipalView {
   private GerenciarBensView gerenciarBensView;
 
   @Inject
+  private RelatorioInventarioView gerenciarInventarioView;
+
+  @Inject
   public MenuPrincipalView(
     PrintStream out,
     Scanner in,
@@ -88,6 +91,8 @@ public class MenuPrincipalView {
           gerenciarBensView.inicie();
         case 8:
           gerenciarBaixasView.inicie();
+        case 9:
+          gerenciarInventarioView.inicie();
         case 99: // Sair
           saiu = true;
           break;
@@ -115,6 +120,7 @@ public class MenuPrincipalView {
     out.println("     6) Registrar ordem de serviço");
     out.println("     7) Gerenciar bem patrimonial");
     out.println("     8) Baixar bem patrimonial");
+    out.println("     9) Relatório de inventário");
     out.println("    99) Sair");
     out.println();
   }
