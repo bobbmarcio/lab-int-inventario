@@ -1,4 +1,4 @@
-package br.ufg.inf.es.integracao.inventario.unidade;
+package br.ufg.inf.es.integracao.inventario.view.cli;
 
 import br.ufg.inf.es.integracao.inventario.dominio.GerenciadorUnidades;
 import br.ufg.inf.es.integracao.inventario.dominio.entidade.Unidade;
