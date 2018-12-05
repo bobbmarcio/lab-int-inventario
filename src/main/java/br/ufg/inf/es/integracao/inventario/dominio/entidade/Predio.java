@@ -13,6 +13,8 @@ public class Predio {
   // TODO: Mapear diretamente a entidade unidade
   private Long idUnidade;
 
+  private String nomeUnidade;
+
   public Predio() {
   }
 
@@ -20,7 +22,7 @@ public class Predio {
     try {
       id = resultSet.getLong("id");
       nome = resultSet.getString("nome");
-      idUnidade = resultSet.getLong("unidade_id");
+      nomeUnidade = resultSet.getString("unidade");
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
@@ -48,5 +50,13 @@ public class Predio {
 
   public void setIdUnidade(Long idUnidade) {
     this.idUnidade = idUnidade;
+  }
+
+  public String getNomeUnidade() {
+    return nomeUnidade;
+  }
+
+  public void setNomeUnidade(String nomeUnidade) {
+    this.nomeUnidade = nomeUnidade;
   }
 }

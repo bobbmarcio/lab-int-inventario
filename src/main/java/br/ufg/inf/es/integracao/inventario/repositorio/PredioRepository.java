@@ -25,7 +25,7 @@ public class PredioRepository extends Repositorio {
       final List<Predio> predios = new LinkedList<>();
 
       iterateResultsOf(
-        "SELECT p.id, p.nome, u.nome FROM predio p, unidade u WHERE p.unidade_id = u.id",
+        "SELECT p.id, p.nome, u.nome as unidade FROM predio p, unidade u WHERE p.unidade_id = u.id",
         resultSet -> predios.add(new Predio(resultSet))
       );
 
